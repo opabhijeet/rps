@@ -25,22 +25,39 @@ function result(playerSelection, computerSelection){
     }
 }
 
-function playGame(){
-    let computerScore = 0;
-    let playerScore = 0;
-    for(let i=1;i<=3;i++){
-        let playerSelection = prompt("Enter your choice").toLowerCase();
-        let computerSelection = getComputerChoice();
-        let winner = result(playerSelection, computerSelection);
-        if(winner.includes("Win")) playerScore++ ;
-        else if(winner.includes("Lose")) computerScore++;
-        console.log(winner);
-    }
-    if(playerScore < computerScore) console.log("You Lose!");
-    else if(playerScore > computerScore) console.log("You Win!")
-    else console.log("Tie!");
+let computerScore = 0;
+let playerScore = 0;
+const pscore = document.querySelector(".playerScore");
+pscore.textContent = "Player: "+playerScore;
+const cscore = document.querySelector(".computerScore");
+cscore.textContent = "Computer: "+computerScore;
 
-    console.log(`Score: ${playerScore} - ${computerScore}`);
+function playGame(e){
+
+    if(playerScore==5 || computerScore==5) return;
+
+    const ychoice = document.querySelector(".yc");
+    const cchoice = document.querySelector(".cc");
+    const winMessage = document.querySelector(".winner");
+
+    let playerSelection = e.target.className ;
+    if(playerSelection==="choice") return;
+    let computerSelection = getComputerChoice();
+
+    ychoice.textContent = "You chose: "+playerSelection.toUpperCase();
+    cchoice.textContent = "Computer chose: "+computerSelection.toUpperCase();
+
+    let winner = result(playerSelection, computerSelection);
+    if(winner.includes("Win")) playerScore++ ;
+    else if(winner.includes("Lose")) computerScore++;
+
+    pscore.textContent = "Player: "+playerScore;
+    cscore.textContent = "Computer: "+computerScore;
+        
+    if(playerScore==5) winMessage.textContent = "Game over! You win!!";
+    else if(computerScore==5) winMessage.textContent = "Game over! You loose!!";
+    else winMessage.textContent = winner;
 }
 
-playGame();
+const player = document.querySelector(".choice");
+player.addEventListener("click",playGame);
