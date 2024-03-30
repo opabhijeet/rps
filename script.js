@@ -61,3 +61,20 @@ function playGame(e){
 
 const player = document.querySelector(".choice");
 player.addEventListener("click",playGame);
+
+let currentElement = null;
+player.addEventListener("mouseover",(e)=>{
+    let target = e.target.closest("button");
+    if(!target) return;
+    target.style.backgroundColor =  "#3F4955";
+    currentElement = target;
+});
+player.addEventListener("mouseout",(e)=>{
+    let target = e.relatedTarget.closest("button");
+    while(target){
+        if(target === currentElement) return;
+        target =  target.parentNode;
+    }
+    currentElement.style.backgroundColor =  "#1F2937";
+    currentElement = null;
+});
